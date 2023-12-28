@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
+import { AxiosError } from 'axios';
 
 import './player-page.css';
 import { useAppDispatch, useAppSelector } from '@components/hooks/hooks';
@@ -9,6 +10,7 @@ import { Reducer } from '@consts/consts';
 import Loader from '@components/loader/loader';
 import { getTimeLeft } from '@components/extra-functions/get-time-left';
 import PlayerState from '@components/player-state/player-state';
+import { errorHandle } from '@services/error-handle';
 
 function Player() {
   const dispatch = useAppDispatch();
@@ -46,7 +48,8 @@ function Player() {
     let isMounted = true;
 
     if (isMounted && id) {
-      dispatch(fetchFilmByID(id));
+      dispatch(fetchFilmByID(id))
+        .catch((err: AxiosError) => errorHandle(`Something went wrong. ${err.message}`));
       setIsPause(true);
     }
 

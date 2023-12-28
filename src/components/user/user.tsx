@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 import { logOut } from '@store/api-actions';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { AppRoute, AuthorizationStatus } from '@consts/consts';
 import { getAuthStatus, getAvatar } from '@store/user-reducer/user-selectors';
 import './user.css';
+import { errorHandle } from '@services/error-handle';
 
 function User(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -14,7 +16,8 @@ function User(): JSX.Element {
 
   const handleSignOutClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    dispatch(logOut());
+    dispatch(logOut())
+      .catch((err: AxiosError) => errorHandle(`Something went wrong. ${err.message}`));
   };
 
   if (authStatus !== AuthorizationStatus.Auth) {
@@ -31,7 +34,9 @@ function User(): JSX.Element {
     <ul className="user-block">
       <li className="user-block__item">
         <div className="user-block__avatar" role='user-block-avatar'>
-          <img src={avatar || ''} alt="User avatar"/>
+          <Link to={AppRoute.MyList}>
+            <img src={avatar || ''} alt="User avatar" />
+          </Link>
         </div>
       </li>
       <li className="user-block__item">

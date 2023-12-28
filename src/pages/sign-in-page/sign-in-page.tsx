@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { FormEvent, useMemo, useRef, useState } from 'react';
+import { AxiosError } from 'axios';
 
 import { AppRoute, AuthorizationStatus, LogInState, Reducer, RE_EMAIL, RE_PASSWORD } from '@consts/consts';
 import { useAppDispatch, useAppSelector } from '@components/hooks/hooks';
@@ -7,6 +8,7 @@ import { logIn } from '@store/api-actions';
 import Footer from '@components/footer/footer';
 import { setLoginState } from '@store/user-reducer/user-reducer';
 import { getAuthStatus } from '@store/user-reducer/user-selectors';
+import { errorHandle } from '@services/error-handle';
 
 function SignInPage(): JSX.Element {
   const [emailField, setEmailField] = useState<string>('');
@@ -33,7 +35,8 @@ function SignInPage(): JSX.Element {
       } else if (isPasswordCorrect()) {
         dispatch(setLoginState(LogInState.NotValidPassword));
       } else {
-        dispatch(logIn({ email: emailField, password: passwordField }));
+        dispatch(logIn({ email: emailField, password: passwordField }))
+          .catch((err: AxiosError) => errorHandle(`Something went wrong. ${err.message}`));
       }
     }
   };

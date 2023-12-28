@@ -1,5 +1,6 @@
 import { Fragment, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 import FilmList from '@components/film-list/film-list';
 import { AuthorizationStatus, SIMILAR_FILM_CARD_COUNT } from '@consts/consts';
@@ -16,6 +17,7 @@ import { setFavoriteCount } from '@store/actions';
 import { getFavCount } from '@store/main-reducer/main-selectors';
 import { getAuthStatus } from '@store/user-reducer/user-selectors';
 import PlayerState from '@components/player-state/player-state';
+import { errorHandle } from '@services/error-handle';
 
 function FilmPage() {
   const { id = '' } = useParams();
@@ -30,12 +32,16 @@ function FilmPage() {
     let isMounted = true;
 
     if (isMounted) {
-      dispatch(fetchFilmByID(id));
-      dispatch(fetchSimilarByID(id));
-      dispatch(fetchReviewsByID(id));
+      dispatch(fetchFilmByID(id))
+        .catch((err: AxiosError) => errorHandle(`Something went wrong. ${err.message}`));
+      dispatch(fetchSimilarByID(id))
+        .catch((err: AxiosError) => errorHandle(`Something went wrong. ${err.message}`));
+      dispatch(fetchReviewsByID(id))
+        .catch((err: AxiosError) => errorHandle(`Something went wrong. ${err.message}`));
 
       if (authStatus === AuthorizationStatus.Auth) {
-        dispatch(fetchFavoriteFilms());
+        dispatch(fetchFavoriteFilms())
+          .catch((err: AxiosError) => errorHandle(`Something went wrong. ${err.message}`));
       }
     }
 
@@ -49,7 +55,8 @@ function FilmPage() {
   }
 
   const handleAddClick = () => {
-    dispatch(changeFilmFavoriteStatus({ filmId: currentFilm?.id, status: +(!currentFilm?.isFavorite) }));
+    dispatch(changeFilmFavoriteStatus({ filmId: currentFilm?.id, status: +(!currentFilm?.isFavorite) }))
+      .catch((err: AxiosError) => errorHandle(`Something went wrong. ${err.message}`));
     if (currentFilm?.isFavorite) {
       dispatch(setFavoriteCount(favCount - 1));
     } else {

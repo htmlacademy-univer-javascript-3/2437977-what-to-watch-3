@@ -11,14 +11,22 @@ import { AppRoute } from '@consts/consts';
 import PrivateRoute from '../private-route/private-route';
 import Loader from '../loader/loader';
 import { useAppSelector } from '../hooks/hooks';
-import { getLoading } from '@store/main-reducer/main-selectors';
+import { getError, getLoading } from '@store/main-reducer/main-selectors';
+import Error from '@components/error/error';
 
 function App(): JSX.Element {
   const isLoading = useAppSelector(getLoading);
+  const isError = useAppSelector(getError);
 
   if (isLoading) {
     return (
       <Loader />
+    );
+  }
+
+  if (isError) {
+    return (
+      <Error />
     );
   }
 

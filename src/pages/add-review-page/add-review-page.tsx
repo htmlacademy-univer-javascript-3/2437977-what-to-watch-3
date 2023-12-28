@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 import './add-review-page.css';
 import { AppRoute, AuthorizationStatus } from '@consts/consts';
@@ -11,6 +12,7 @@ import { fetchFilmByID } from '@store/api-actions';
 import Logo from '@components/logo/logo';
 import { getFilm } from '@store/film-reducer/film-selectors';
 import { getAuthStatus } from '@store/user-reducer/user-selectors';
+import { errorHandle } from '@services/error-handle';
 
 function AddReviewPage() {
   const { id = '' } = useParams();
@@ -20,7 +22,8 @@ function AddReviewPage() {
 
   useEffect(() => {
     dispatch(setDataIsLoading(true));
-    dispatch(fetchFilmByID(id));
+    dispatch(fetchFilmByID(id))
+      .catch((err: AxiosError) => errorHandle(`Something went wrong. ${err.message}`));
     dispatch(setDataIsLoading(false));
   }, [id, dispatch]);
 

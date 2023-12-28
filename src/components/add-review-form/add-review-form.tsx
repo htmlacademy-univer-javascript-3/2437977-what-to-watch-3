@@ -1,10 +1,12 @@
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 import { useAppDispatch } from '../hooks/hooks';
 import { postReview } from '@store/api-actions';
 import RatingItem from '../rating-item/rating-item';
 import { MAX_LENGTH_REVIEW, MIN_LENGTH_REVIEW } from '@consts/consts';
+import { errorHandle } from '@services/error-handle';
 
 function AddReviewForm() {
   const { id = '' } = useParams();
@@ -17,7 +19,8 @@ function AddReviewForm() {
     setFilmRating(Number(evt.target.value)), []);
 
   const doOnSubmit = (rating: number, comment: string) => {
-    dispatch(postReview({ filmId: id, rating, comment }));
+    dispatch(postReview({ filmId: id, rating, comment }))
+      .catch((err: AxiosError) => errorHandle(`Something went wrong. ${err.message}`));
     navigate(`/films/${id}`);
   };
 

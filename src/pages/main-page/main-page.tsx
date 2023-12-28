@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 import FilmList from '@components/film-list/film-list';
 import './main-page.css';
@@ -15,6 +16,7 @@ import { changePromoFavoriteStatus, fetchFavoriteFilms } from '@store/api-action
 import { setFavoriteCount } from '@store/actions';
 import { getAuthStatus } from '@store/user-reducer/user-selectors';
 import PlayerState from '@components/player-state/player-state';
+import { errorHandle } from '@services/error-handle';
 
 function MainPage() {
   const promoFilm = useAppSelector(getPromo);
@@ -33,7 +35,8 @@ function MainPage() {
     }
 
     if (authStatus === AuthorizationStatus.Auth) {
-      dispatch(fetchFavoriteFilms());
+      dispatch(fetchFavoriteFilms())
+        .catch((err: AxiosError) => errorHandle(`Something went wrong. ${err.message}`));
     }
   }, [authStatus, dispatch]);
 
@@ -42,7 +45,8 @@ function MainPage() {
   }
 
   const handleAddClick = () => {
-    dispatch(changePromoFavoriteStatus({ filmId: promoFilm.id, status: +(!promoFilm?.isFavorite) }));
+    dispatch(changePromoFavoriteStatus({ filmId: promoFilm.id, status: +(!promoFilm?.isFavorite) }))
+      .catch((err: AxiosError) => errorHandle(`Something went wrong. ${err.message}`));
     if (promoFilm?.isFavorite) {
       dispatch(setFavoriteCount(favCount - 1));
     } else {

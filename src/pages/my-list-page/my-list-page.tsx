@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 import './my-list-page.css';
 import User from '@components/user/user';
@@ -11,6 +12,7 @@ import { fetchFavoriteFilms } from '@store/api-actions';
 import FilmCard from '@components/film-card/film-card';
 import { getFavFilms } from '@store/main-reducer/main-selectors';
 import { getAuthStatus } from '@store/user-reducer/user-selectors';
+import { errorHandle } from '@services/error-handle';
 
 function MyListPage(): JSX.Element {
   const authStatus = useAppSelector(getAuthStatus);
@@ -22,7 +24,8 @@ function MyListPage(): JSX.Element {
     let isMounted = true;
 
     if (isMounted && authStatus === AuthorizationStatus.Auth) {
-      dispatch(fetchFavoriteFilms());
+      dispatch(fetchFavoriteFilms())
+        .catch((err: AxiosError) => errorHandle(`Something went wrong. ${err.message}`));
       navigate('/mylist');
     }
 
