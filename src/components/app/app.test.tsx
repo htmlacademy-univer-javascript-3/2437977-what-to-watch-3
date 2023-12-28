@@ -1,11 +1,12 @@
-import App from './app';
-import thunk from 'redux-thunk';
-import { Provider } from 'react-redux';
-import { createAPI } from '@services/api';
-import { MemoryRouter } from 'react-router-dom';
-import { AuthorizationStatus, LogInState, AppRoute } from '@consts/consts';
 import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
+import thunk from 'redux-thunk';
+import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+
+import App from './app';
+import { createAPI } from '@services/api';
+import { AuthorizationStatus, LogInState, AppRoute } from '@consts/consts';
 import { takeTestFilm, takeTestFilms } from '@mocks/mocks';
 
 const middlewares = [thunk.withExtraArgument(createAPI())];

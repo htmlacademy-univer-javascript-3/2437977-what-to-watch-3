@@ -1,12 +1,13 @@
 import { Provider } from 'react-redux';
-import FilmTabs from './film-tabs';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { State } from '../types';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
-import { createAPI } from '@services/api';
 import thunk from 'redux-thunk';
+
+import FilmTabs from './film-tabs';
+import { State } from '../types';
+import { createAPI } from '@services/api';
 import { takeTestFilm, takeTestReviews } from '@mocks/mocks';
 
 describe('Component: FilmTabs', () => {

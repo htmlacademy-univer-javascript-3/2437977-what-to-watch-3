@@ -1,8 +1,9 @@
 import { Provider } from 'react-redux';
-import PrivateRoute from './private-route';
 import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+
+import PrivateRoute from './private-route';
 import { ApiRoute, AppRoute, AuthorizationStatus, LogInState } from '@consts/consts';
 
 const mockStore = configureMockStore();

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import './my-list-page.css';
 import User from '@components/user/user';
@@ -10,7 +11,6 @@ import { fetchFavoriteFilms } from '@store/api-actions';
 import FilmCard from '@components/film-card/film-card';
 import { getFavFilms } from '@store/main-reducer/main-selectors';
 import { getAuthStatus } from '@store/user-reducer/user-selectors';
-import { useNavigate } from 'react-router-dom';
 
 function MyListPage(): JSX.Element {
   const authStatus = useAppSelector(getAuthStatus);

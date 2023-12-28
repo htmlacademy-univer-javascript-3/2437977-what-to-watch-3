@@ -1,11 +1,12 @@
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import MainPage from './main-page';
-import { createAPI } from '@services/api';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { configureMockStore } from '@jedmao/redux-mock-store';
+
+import MainPage from './main-page';
+import { createAPI } from '@services/api';
 import { takeTestFilm, takeTestFilms } from '@mocks/mocks';
 import { State } from '@components/types';
 import { AuthorizationStatus } from '@consts/consts';

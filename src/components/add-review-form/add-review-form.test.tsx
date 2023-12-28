@@ -1,8 +1,9 @@
 import { Provider } from 'react-redux';
-import AddReviewForm from './add-review-form';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
+
+import AddReviewForm from './add-review-form';
 
 describe('Component: AddReviewForm', () => {
   const mockStore = configureMockStore();

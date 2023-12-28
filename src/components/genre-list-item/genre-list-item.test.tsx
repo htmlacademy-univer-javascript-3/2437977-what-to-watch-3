@@ -1,13 +1,14 @@
 import { render, screen } from '@testing-library/react';
+import { configureMockStore } from '@jedmao/redux-mock-store';
+import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { MemoryRouter } from 'react-router-dom';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
+
 import { takeTestFilm } from '@mocks/mocks';
 import GenreListItem from './genre-list-item';
 import { createAPI } from '@services/api';
-import { configureMockStore } from '@jedmao/redux-mock-store';
-import { Action, ThunkDispatch } from '@reduxjs/toolkit';
-import thunk from 'redux-thunk';
 import { State } from '../types';
-import { Provider } from 'react-redux';
 
 describe('Component: GenreListItem', () => {
   const api = createAPI();

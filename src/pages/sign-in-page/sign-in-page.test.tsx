@@ -1,12 +1,13 @@
-import SignInPage from './sign-in-page';
 import thunk from 'redux-thunk';
-import { Provider } from 'react-redux';
-import { createAPI } from '@services/api';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { configureMockStore } from '@jedmao/redux-mock-store';
+import { Provider } from 'react-redux';
+
+import SignInPage from './sign-in-page';
+import { createAPI } from '@services/api';
 import { State } from '@components/types';
 import { AuthorizationStatus, LogInState } from '@consts/consts';
 

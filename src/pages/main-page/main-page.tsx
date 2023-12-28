@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 import FilmList from '@components/film-list/film-list';
@@ -24,16 +24,17 @@ function MainPage() {
   const authStatus = useAppSelector(getAuthStatus);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    let isMounted = true;
+  const isMountedRef = useRef(false);
 
-    if (isMounted && authStatus === AuthorizationStatus.Auth) {
-      dispatch(fetchFavoriteFilms());
+  useEffect(() => {
+    if (!isMountedRef.current) {
+      isMountedRef.current = true;
+      return;
     }
 
-    return () => {
-      isMounted = false;
-    };
+    if (authStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoriteFilms());
+    }
   }, [authStatus, dispatch]);
 
   if (!promoFilm) {

@@ -1,5 +1,5 @@
 import { getCurrentGenre, getFilmList } from '@store/main-reducer/main-selectors.ts';
-import { Genre } from '@consts/consts';
+import { Genre } from '@consts/consts.ts';
 import { getGenres } from '../extra-functions/get-genres.ts';
 import GenreListItem from '../genre-list-item/genre-list-item.tsx';
 import { useAppSelector } from '../hooks/hooks.ts';

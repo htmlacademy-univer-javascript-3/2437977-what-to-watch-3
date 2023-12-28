@@ -1,5 +1,6 @@
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
-import { Genre } from '../consts/consts';
+
+import { Genre } from '@consts/consts';
 import { Film, Review, State } from '../components/types';
 import { createAPI } from '@services/api';
 
